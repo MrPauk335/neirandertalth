@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EARTH: UNWRITTEN — The Divergent GTA & Civ Sandbox</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Главный полноэкранный холст игры -->
+    <canvas id="gameCanvas"></canvas>
+
+    <!-- Игровой интерфейс (HUD) с эффектом Glassmorphism -->
+    <div id="hud">
+        <!-- Верхний статус-бар -->
+        <header id="topBar" class="glass-panel">
+            <div class="top-section era-info">
+                <span class="badge" id="eraBadge">ЭПОХА I</span>
+                <div class="era-titles">
+                    <h1 id="eraName">КАМЕННЫЙ ВЕК</h1>
+                    <span id="earthYear">-10 000 до н.э.</span>
+                </div>
+            </div>
+
+            <div class="top-section wanted-container">
+                <span class="hud-label">УРОВЕНЬ РОЗЫСКА</span>
+                <div id="wantedStars" class="stars-box" title="Уровень розыска (1-5 звезд)">
+                    <span class="star" data-index="1">★</span>
+                    <span class="star" data-index="2">★</span>
+                    <span class="star" data-index="3">★</span>
+                    <span class="star" data-index="4">★</span>
+                    <span class="star" data-index="5">★</span>
+                </div>
+                <div id="cooldownTimer" class="cooldown-text">Укрытие: <span id="cooldownSeconds">15</span>с</div>
+            </div>
+
+            <div class="top-section player-stats">
+                <div class="stat-row">
+                    <span class="stat-name">ЗДОРОВЬЕ</span>
+                    <div class="progress-bar-wrap">
+                        <div id="hpBar" class="progress-fill hp-fill" style="width: 100%;"></div>
+                        <span id="hpText" class="progress-label">100 / 100</span>
+                    </div>
+                </div>
+                <div class="stat-row" id="vehicleStatRow" style="display: none;">
+                    <span class="stat-name" id="vehicleNameLabel">ТРАНСПОРТ</span>
+                    <div class="progress-bar-wrap">
+                        <div id="vehicleHpBar" class="progress-fill vehicle-fill" style="width: 100%;"></div>
+                        <span id="vehicleSpeedText" class="progress-label">0 км/ч</span>
+                    </div>
+                </div>
+                <div class="stat-subinfo">
+                    <span id="weaponIndicator">🗡️ Оружие: Костяная дубина</span>
+                    <span id="popIndicator">👥 Жителей: 60</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Левый сайдбар: Живая Хроника истории -->
+        <aside id="chronicleSidebar" class="glass-panel">
+            <div class="sidebar-header">
+                <h3>📜 ЖИВАЯ ХРОНИКА МИРА</h3>
+                <button id="clearChronicleBtn" class="tiny-btn" title="Очистить лог">✕</button>
+            </div>
+            <div id="chronicleFeed" class="chronicle-list">
+                <div class="chronicle-entry system">
+                    <span class="time">[10 000 до н.э.]</span>
+                    <span class="text">Первобытные племена вышли к битумным топям. История Земли началась.</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Подсказка по контекстному взаимодействию (Угон / Посадка) -->
+        <div id="interactionHint" class="interaction-prompt" style="display: none;">
+            <span class="key-cap">[F]</span> или <span class="key-cap">[E]</span> — Оседлать / Угнать
+        </div>
+
+        <!-- Нижняя панель действий -->
+        <footer id="bottomBar" class="glass-panel">
+            <div class="action-group">
+                <button id="chronoJumpBtn" class="action-btn primary" title="Продвинуть время вперед и приблизить новую эру">
+                    <span class="btn-icon">⏳</span>
+                    <div class="btn-content">
+                        <strong>Хроноскачок (+500 лет)</strong>
+                        <div class="mini-progress-bar">
+                            <div id="eraProgressBar" class="mini-progress-fill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <div class="action-group center-actions">
+                <button id="godModeBtn" class="action-btn warning" title="Открыть меню катаклизмов и божественных сил">
+                    <span class="btn-icon">⚡</span>
+                    <span>Режим Бога</span>
+                </button>
+                <button id="schoolArchiveBtn" class="action-btn info" title="Открыть сатирический школьный учебник истории 3500 года">
+                    <span class="btn-icon">📖</span>
+                    <span>Школьный Архив</span>
+                </button>
+                <button id="controlsBtn" class="action-btn secondary" title="Справка по управлению">
+                    <span class="btn-icon">🎮</span>
+                    <span>Управление</span>
+                </button>
+            </div>
+
+            <div class="action-group sound-toggle-group">
+                <button id="audioToggleBtn" class="action-btn sound-btn" title="Включить / выключить процедурный звук">
+                    <span id="audioIcon">🔊</span>
+                    <span id="audioStatus">Звук: ВКЛ</span>
+                </button>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Модальное окно: Режим Бога (Катаклизмы и Чудеса) -->
+    <div id="godModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h2>⚡ РЕЖИМ БОГА: КАТАКЛИЗМЫ И БЛАГОСЛОВЕНИЯ</h2>
+                <button class="modal-close-btn" data-close="godModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="modal-desc">
+                    Вы — трансцендентный архитектор реальности. Направляйте судьбы народов прямым вмешательством в полотно Земли.
+                </p>
+                <div class="god-powers-grid">
+                    <button class="power-card" id="godMeteorBtn">
+                        <span class="power-icon">☄️</span>
+                        <div class="power-info">
+                            <strong>Метеоритный Удар</strong>
+                            <small>Обрушить болид в центр карты: огненный кратер, ударная волна и пожар.</small>
+                        </div>
+                    </button>
+                    <button class="power-card" id="godPlagueBtn">
+                        <span class="power-icon">☣️</span>
+                        <div class="power-info">
+                            <strong>Битумный Мор</strong>
+                            <small>Черное ядовитое облако испарений смолы: паника среди жителей и урон по площади.</small>
+                        </div>
+                    </button>
+                    <button class="power-card" id="godGoldenAgeBtn">
+                        <span class="power-icon">✨</span>
+                        <div class="power-info">
+                            <strong>Золотой Век Прозрения</strong>
+                            <small>Всплеск массовой эврики: исцеление, ускорение прогресса и праздничные возгласы.</small>
+                        </div>
+                    </button>
+                    <button class="power-card" id="godMartialLawBtn">
+                        <span class="power-icon">🚨</span>
+                        <div class="power-info">
+                            <strong>Мгновенное Военное Положение</strong>
+                            <small>Немедленно активировать 5 звёзд розыска и призвать элитную гвардию.</small>
+                        </div>
+                    </button>
+                    <button class="power-card" id="godAmnestyBtn">
+                        <span class="power-icon">🕊️</span>
+                        <div class="power-info">
+                            <strong>Великая Амнистия</strong>
+                            <small>Мгновенно обнулить все звезды розыска и усмирить стражу.</small>
+                        </div>
+                    </button>
+                    <button class="power-card" id="godAdvanceEraBtn">
+                        <span class="power-icon">🚀</span>
+                        <div class="power-info">
+                            <strong>Принудительный Скачок Эпохи</strong>
+                            <small>Мгновенная трансформация ландшафта, архитектуры и техники в следующую эру.</small>
+                        </div>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn standard-btn" data-close="godModal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Школьный Архив (Учебник истории 3500 года) -->
+    <div id="schoolModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-window glass-panel book-theme">
+            <div class="modal-header">
+                <h2>📖 ИСТОРИЯ ЗЕМЛИ: УЧЕБНИК ДЛЯ 5 КЛАССА (3500 г.)</h2>
+                <button class="modal-close-btn" data-close="schoolModal">&times;</button>
+            </div>
+            <div class="modal-body book-body">
+                <div class="book-cover-banner">
+                    <div class="banner-title">«ДЕЯНИЯ СВЯЩЕННОГО ПЕРВОПРЕДКА И ВЕЛИКИЙ БИТУМНЫЙ ПУТЬ»</div>
+                    <div class="banner-sub">Одобрено Министерством Исторической Сатиры и Ревизионизма Нео-Земли</div>
+                </div>
+
+                <div class="school-stats-bar">
+                    <div class="school-stat">
+                        <span class="num" id="statTotalCrimes">0</span>
+                        <span class="lbl">«Священных Реформ» (Преступлений)</span>
+                    </div>
+                    <div class="school-stat">
+                        <span class="num" id="statKills">0</span>
+                        <span class="lbl">«Умиротворенных Еретиков» (Жертв)</span>
+                    </div>
+                    <div class="school-stat">
+                        <span class="num" id="statHijacks">0</span>
+                        <span class="lbl">«Освященных Колесниц» (Угонов)</span>
+                    </div>
+                    <div class="school-stat">
+                        <span class="num" id="statEurekas">0</span>
+                        <span class="lbl">«Грязных Откровений» (Эврик)</span>
+                    </div>
+                </div>
+
+                <div id="schoolChapters" class="school-chapters-list">
+                    <!-- Процедурно наполняется из ai.js / SchoolArchiveEngine -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn standard-btn" data-close="schoolModal">Закрыть Учебник</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно: Справка по Управлению -->
+    <div id="controlsModal" class="modal-backdrop" style="display: none;">
+        <div class="modal-window glass-panel">
+            <div class="modal-header">
+                <h2>🎮 СХЕМА УПРАВЛЕНИЯ И ПРАВИЛА ВЫЖИВАНИЯ</h2>
+                <button class="modal-close-btn" data-close="controlsModal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="controls-table-wrap">
+                    <table class="controls-table">
+                        <thead>
+                            <tr>
+                                <th>Клавиша / Ввод</th>
+                                <th>Пеший Режим</th>
+                                <th>В Седле / За Рулём</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> или Стрелки</td>
+                                <td>Ходьба и бег во всех направлениях</td>
+                                <td>Газ, тормоз / задний ход, поворот руля</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>Мышь</kbd> (Курсор)</td>
+                                <td>Прицеливание и поворот взгляда</td>
+                                <td>Направление огня бортового орудия</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>ЛКМ</kbd> или <kbd>Пробел</kbd></td>
+                                <td>Удар дубиной / выстрел из оружия</td>
+                                <td>Таранный импульс / бортовой выстрел</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>F</kbd> или <kbd>E</kbd></td>
+                                <td>Оседлать зверя / Угнать машину</td>
+                                <td>Спешиться / Покинуть транспорт</td>
+                            </tr>
+                            <tr>
+                                <td><kbd>1</kbd> - <kbd>4</kbd></td>
+                                <td colspan="2">Быстрый выбор доступного вооружения текущей эпохи</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="rules-callout">
+                    <h4>⭐ Как работает 5 Звёзд Розыска:</h4>
+                    <p>Любая драка, убийство жителя или угон привлекают стражу. Чем выше скорость вашего мамонта или паровика при наезде на пешехода — тем больше смертоносный импульс и тем быстрее растет розыск! Чтобы сбросить звезды, скройтесь из поля зрения стражников и продержитесь 15 секунд.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn standard-btn" data-close="controlsModal">Понятно, в бой!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Контейнер для всплывающих тост-уведомлений -->
+    <div id="toastContainer" class="toast-stack"></div>
+
+    <!-- Скрипты игровых подсистем (порядок загрузки строго детерминирован) -->
+    <script src="js/sound.js"></script>
+    <script src="js/entities.js"></script>
+    <script src="js/world.js"></script>
+    <script src="js/ai.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
