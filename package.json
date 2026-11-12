@@ -1,0 +1,23 @@
+{
+  "name": "neirandertalth",
+  "version": "1.0.0",
+  "description": "NEIRANDERTALTH: TIMELINE PARADOX — Planetary Civilization Simulator & 4D Branching GTA Sandbox",
+  "type": "module",
+  "scripts": {
+    "start": "python3 -m http.server 8000",
+    "serve": "npx serve .",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "game-engine",
+    "canvas",
+    "civilization-simulator",
+    "gta-sandbox",
+    "butterfly-effect",
+    "time-travel",
+    "procedural-generation",
+    "web-audio"
+  ],
+  "author": "Antigravity Lead Architect",
+  "license": "MIT"
+}

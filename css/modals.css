@@ -1,0 +1,266 @@
+/* ==========================================================================
+   NEIRANDERTALTH: TIMELINE PARADOX — MODALS (css/modals.css)
+   ========================================================================== */
+
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-window {
+    width: 100%;
+    max-width: 780px;
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.modal-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #fff;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.modal-close-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-bottom: 16px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 12px;
+}
+
+.btn {
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    border: 1px solid var(--panel-border);
+}
+
+.standard-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+.standard-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* GOD POWERS GRID */
+.god-powers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.power-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+}
+
+.power-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: var(--accent-gold);
+    transform: translateY(-2px);
+}
+
+.power-icon {
+    font-size: 28px;
+}
+
+.power-info strong {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 2px;
+    color: #fff;
+}
+
+.power-info small {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* BOOK THEME (SCHOOL ARCHIVE) */
+.book-theme {
+    max-width: 820px;
+    background: rgba(18, 16, 24, 0.95);
+    border-color: rgba(255, 183, 3, 0.3);
+}
+
+.book-cover-banner {
+    background: linear-gradient(135deg, rgba(255, 183, 3, 0.15), rgba(114, 9, 183, 0.2));
+    border: 1px solid rgba(255, 183, 3, 0.3);
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.banner-title {
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--accent-gold);
+}
+
+.banner-sub {
+    font-size: 11px;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+.school-stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.school-stat {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+}
+
+.school-stat .num {
+    display: block;
+    font-size: 20px;
+    font-weight: 900;
+    font-family: var(--font-mono);
+    color: var(--accent-cyan);
+}
+
+.school-stat .lbl {
+    display: block;
+    font-size: 10px;
+    color: var(--text-muted);
+    margin-top: 4px;
+}
+
+.book-chapter {
+    background: rgba(255, 255, 255, 0.03);
+    border-left: 3px solid var(--accent-gold);
+    border-radius: 4px 8px 8px 4px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+}
+
+.book-chapter h4 {
+    font-size: 13px;
+    color: var(--accent-gold);
+    margin-bottom: 4px;
+}
+
+.book-chapter p {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #e2e8f0;
+}
+
+.book-chapter .quote {
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-style: italic;
+    color: var(--text-secondary);
+}
+
+/* PLANET FACTIONS LIST */
+.planet-factions-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.faction-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 14px;
+}
+
+.faction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.faction-header h4 {
+    font-size: 14px;
+    color: var(--accent-cyan);
+}
+
+.faction-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    font-size: 11px;
+    margin-bottom: 8px;
+}
+
+.faction-status {
+    font-size: 11px;
+    color: var(--text-secondary);
+}

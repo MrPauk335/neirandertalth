@@ -1,0 +1,123 @@
+{
+  "epochs": [
+    {
+      "id": "epoch_0_stone",
+      "index": 0,
+      "name": "Плейстоценовый Исток",
+      "yearText": "40 000 до н.э.",
+      "yearNumeric": -40000,
+      "desc": "Неандертальцы живут стойбищами, приручают первобытных туров, охотятся на шерстистых мамонтов и поклоняются первым кострам в битумных топях.",
+      "groundColor": "#6f7d54",
+      "roadColor": "#586440",
+      "riverColor": "#3d6377",
+      "ambientColor": "rgba(255, 230, 200, 0.04)",
+      "weather": "mist",
+      "dominantTech": "Костяные орудия и смоляной огонь",
+      "playerWeapon": {
+        "id": "bone_club",
+        "name": "Дубина из бедренной кости мамонта",
+        "type": "melee",
+        "damage": 40,
+        "cooldown": 0.45,
+        "range": 60
+      },
+      "spawnVehicles": ["mammoth", "auroch", "sabertooth"]
+    },
+    {
+      "id": "epoch_1_bitumen",
+      "index": 1,
+      "name": "Битумная Античность",
+      "yearText": "3 000 до н.э.",
+      "yearNumeric": -3000,
+      "desc": "Первые города-государства возводят смоляные зиккураты. Нефть и сера заменили бронзу. По улицам мчат боевые колесницы со смоляными факелами.",
+      "groundColor": "#b89355",
+      "roadColor": "#856837",
+      "riverColor": "#2f5973",
+      "ambientColor": "rgba(255, 180, 50, 0.07)",
+      "weather": "heat",
+      "dominantTech": "Смоляной кремень и огнеметные чаши",
+      "playerWeapon": {
+        "id": "bitumen_spear",
+        "name": "Битумное метательное копье",
+        "type": "ranged",
+        "damage": 50,
+        "cooldown": 0.55,
+        "range": 550,
+        "speed": 480
+      },
+      "spawnVehicles": ["chariot", "rhino", "auroch"]
+    },
+    {
+      "id": "epoch_2_steam",
+      "index": 2,
+      "name": "Паро-Битумный Век",
+      "yearText": "1890 г. н.э.",
+      "yearNumeric": 1890,
+      "desc": "Черный смог фабрик окутал булыжные мостовые. Паровые броневики на нефтяном ходу патрулируют улицы. Рабочие стачки подавляются констеблями с револьверами.",
+      "groundColor": "#42454a",
+      "roadColor": "#292b2f",
+      "riverColor": "#243c48",
+      "ambientColor": "rgba(100, 100, 115, 0.08)",
+      "weather": "rain_smog",
+      "dominantTech": "Поршневая пневматика и нарезной порох",
+      "playerWeapon": {
+        "id": "steam_revolver",
+        "name": "Шестизарядный паровой револьвер",
+        "type": "ranged",
+        "damage": 45,
+        "cooldown": 0.32,
+        "range": 750,
+        "speed": 820
+      },
+      "spawnVehicles": ["steam_tank", "steam_car", "chariot"]
+    },
+    {
+      "id": "epoch_3_cyber",
+      "index": 3,
+      "name": "Нео-Мегаполис 2200",
+      "yearText": "2200 г. н.э.",
+      "yearNumeric": 2200,
+      "desc": "Километровые монолиты из обсидианового полимера пронзают облака. Голографический неон освещает грави-спидеры и кибер-патрули с плазменными карабинами.",
+      "groundColor": "#080c14",
+      "roadColor": "#0f1624",
+      "riverColor": "#005f73",
+      "ambientColor": "rgba(0, 229, 255, 0.06)",
+      "weather": "neon_night",
+      "dominantTech": "Антигравитация и квантовая плазма",
+      "playerWeapon": {
+        "id": "plasma_carbine",
+        "name": "Импульсный плазменный карабин",
+        "type": "ranged",
+        "damage": 65,
+        "cooldown": 0.2,
+        "range": 950,
+        "speed": 1050
+      },
+      "spawnVehicles": ["grav_speeder", "cyber_interceptor", "steam_tank"]
+    },
+    {
+      "id": "epoch_4_paradox",
+      "index": 4,
+      "name": "Парадокс Сингулярности",
+      "yearText": "3500 г. н.э.",
+      "yearNumeric": 3500,
+      "desc": "Темпоральный разлом. Ветви реальности сошлись воедино: киборги ездят на био-мамонтах, паровые заводы питаются антиматерией, а в центре возвышается Храм Путешественника во Времени.",
+      "groundColor": "#140a1f",
+      "roadColor": "#221133",
+      "riverColor": "#7209b7",
+      "ambientColor": "rgba(114, 9, 183, 0.12)",
+      "weather": "chronos_storm",
+      "dominantTech": "Схлопывание времени и нуль-транзисторы",
+      "playerWeapon": {
+        "id": "chronos_disruptor",
+        "name": "Хроно-дезинтегратор пространственно-временного континуума",
+        "type": "ranged",
+        "damage": 90,
+        "cooldown": 0.28,
+        "range": 1100,
+        "speed": 1200
+      },
+      "spawnVehicles": ["chronos_beast", "grav_speeder", "mammoth"]
+    }
+  ]
+}
